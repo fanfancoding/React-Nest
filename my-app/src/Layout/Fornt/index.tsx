@@ -2,13 +2,14 @@ import { useState, useMemo } from "react";
 import { ConfigProvider, Dropdown, Drawer, Button, Menu } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import { Outlet } from "react-router";
+import { useNavigate } from "react-router";
 import { navigateTabList } from "./config";
 import { dropdownTheme, menuTheme } from "./cssConfig";
 import cat from "@/assets/cat.gif";
 
 export default function FrontLayout() {
   const [open, setOpen] = useState(false);
-
+  const navigate = useNavigate();
   // 计算需要默认展开的 key (所有有子项的项)
   const defaultOpenKeys = useMemo(() => {
     return navigateTabList
@@ -46,6 +47,12 @@ export default function FrontLayout() {
       </ConfigProvider>
     );
   };
+
+  const handleTabClick = (e: any) => {
+    console.log(e);
+    navigate(e.key);
+    setOpen(false);
+  };
   const navigateListRender = () => {
     return navigateTabList.map((item) => {
       return (
@@ -53,6 +60,7 @@ export default function FrontLayout() {
           <Dropdown
             menu={{
               items: item.children as any,
+              onClick: handleTabClick,
             }}
           >
             <li className="flex items-center gap-2 cursor-pointer">
