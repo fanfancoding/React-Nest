@@ -24,6 +24,9 @@ export const menuTheme = {
       itemSelectedBg: "rgba(130, 65, 28, 0.1)", // 选中项的背景色
       itemActiveBg: "rgba(130, 65, 28, 0.05)", // 激活时的背景色
       itemHoverBg: "rgba(130, 65, 28, 0.05)", // 悬浮时的背景色
+      submenuItemColor: "var(--color-primary)", // 子菜单标题颜色
+      subMenuItemSelectedColor: "var(--color-primary)", // 子菜单选中时的标题颜色
+      groupTitleColor: "var(--color-primary)", // 分组标题颜色
     },
   },
 };

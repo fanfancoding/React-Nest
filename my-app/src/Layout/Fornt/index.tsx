@@ -41,7 +41,7 @@ export default function FrontLayout() {
             mode="inline"
             defaultOpenKeys={defaultOpenKeys}
             items={mobileMenuItems}
-            onClick={() => setOpen(false)}
+            onClick={handleTabClick}
           />
         </Drawer>
       </ConfigProvider>
@@ -49,25 +49,44 @@ export default function FrontLayout() {
   };
 
   const handleTabClick = (e: any) => {
-    console.log(e);
     navigate(e.key);
     setOpen(false);
   };
+
   const navigateListRender = () => {
     return navigateTabList.map((item) => {
+      const content = (
+        <li
+          className="flex items-center gap-2 cursor-pointer"
+          onClick={() => {
+            if (!item.children || item.children.length === 0) {
+              navigate(item.path);
+            }
+          }}
+        >
+          {item.icon}
+          {item.label}
+        </li>
+      );
+
+      if (item.children && item.children.length > 0) {
+        return (
+          <ConfigProvider theme={dropdownTheme} key={item.key}>
+            <Dropdown
+              menu={{
+                items: item.children as any,
+                onClick: handleTabClick,
+              }}
+            >
+              {content}
+            </Dropdown>
+          </ConfigProvider>
+        );
+      }
+
       return (
         <ConfigProvider theme={dropdownTheme} key={item.key}>
-          <Dropdown
-            menu={{
-              items: item.children as any,
-              onClick: handleTabClick,
-            }}
-          >
-            <li className="flex items-center gap-2 cursor-pointer">
-              {item.icon}
-              {item.label}
-            </li>
-          </Dropdown>
+          {content}
         </ConfigProvider>
       );
     });
